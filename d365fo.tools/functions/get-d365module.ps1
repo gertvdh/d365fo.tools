@@ -27,7 +27,7 @@
         
         Default value is "*" which will search for all packages / modules
 
-	.PARAMETER Expand
+    .PARAMETER Expand
         Adds the version of the package / module to the output
         
     .EXAMPLE
@@ -118,32 +118,31 @@ function Get-D365Module {
         Write-PSFMessage -Level Verbose -Message "Filtering out all modules that doesn't match the model search." -Target $obj
         if ($obj.Name -NotLike $Name) {continue}
 
-		if ($Expand -eq $true)
-		{
-			$modulepath = Join-Path (Join-Path $PackageDirectory $obj.Name) "bin"
+        if ($Expand -eq $true)
+        {
+            $modulepath = Join-Path (Join-Path $PackageDirectory $obj.Name) "bin"
 
-			if (Test-Path -Path $modulepath -PathType Container)
-			{
-				$version = (Get-ChildItem $modulepath -Filter "*$($obj.Name).dll" | Select-Object -ExpandProperty VersionInfo).FileVersion
-			}
-			else
-			{
-				$version = "Unknown"
+            if (Test-Path -Path $modulepath -PathType Container)
+            {
+			    $version = (Get-ChildItem $modulepath -Filter "*$($obj.Name).dll" | Select-Object -ExpandProperty VersionInfo).FileVersion
+            }
+            else
+            {
+                $version = "Unknown"
 			}
 			
-			[PSCustomObject]@{
-				Module     = $obj.Name
-				References = $obj.References
-				Version    = $version
-			}
-		}
-		else
-		{
-			[PSCustomObject]@{
-				Module     = $obj.Name
-				References = $obj.References
-			}	
-		}
-        
+            [PSCustomObject]@{
+                Module     = $obj.Name
+                References = $obj.References
+                Version    = $version
+            }
+        }
+        else
+        {
+            [PSCustomObject]@{
+                Module     = $obj.Name
+                References = $obj.References
+            }	
+        }        
     }
 }
