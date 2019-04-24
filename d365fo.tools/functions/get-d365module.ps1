@@ -124,12 +124,8 @@ function Get-D365Module {
 
             if (Test-Path -Path $modulepath -PathType Container)
             {
-			    $version = (Get-ChildItem $modulepath -Filter "*$($obj.Name).dll" | Select-Object -ExpandProperty VersionInfo).FileVersion
+                $version = (Get-ChildItem $modulepath -Filter "*$($obj.Name).dll" | Select-Object -ExpandProperty VersionInfo).FileVersion
             }
-            else
-            {
-                $version = "Unknown"
-			}
 			
             [PSCustomObject]@{
                 Module     = $obj.Name
